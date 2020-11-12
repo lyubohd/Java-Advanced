@@ -1,4 +1,10 @@
 .*
+|.gitignore
+|.classpath
+|.project
+
+#intellij
 *.iml
+
 build/
 output/
