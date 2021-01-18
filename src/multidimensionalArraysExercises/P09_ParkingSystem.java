@@ -6,126 +6,53 @@ import java.util.Scanner;
 public class P09_ParkingSystem {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
+        int[] data = Arrays.stream(scan.nextLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
+        int n = data[0];
+        int m = data[1];
+        boolean[][] isOccupied = new boolean[data[0]][data[1]];
+        for (int i = 0; i < isOccupied.length; i++) {
+            isOccupied[i][0] = true;
+        }
 
-        int[] dimensions = Arrays.stream(scan.nextLine()
-                .split("\\s+"))
-                .mapToInt(Integer::parseInt)
-                .toArray();
+        String input = scan.nextLine();
+        while (!"stop".equals(input)) {
+            String[] tokens = input.split("\\s+");
+            int entryRow = Integer.parseInt(tokens[0]);
+            int targetRow = Integer.parseInt(tokens[1]);
+            int targetCol = Integer.parseInt(tokens[2]);
+            boolean hasFoundFreePlace = false;
 
-        boolean[][] parking = new boolean[dimensions[0]][dimensions[1]];
+            int traveledDistance = 1;
+            traveledDistance += Math.abs(targetRow - entryRow);
 
-        String line = scan.nextLine();
-
-        while (!"stop".equals(line)) {
-
-            int[] data = Arrays.stream(line
-                    .split("\\s+"))
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
-
-            int entryRow = data[0];
-            int destinationRow = data[1];
-            int destinationCol = data[2];
-
-            int distance = calculateDistance(parking, entryRow, destinationRow, destinationCol);
-
-            if (distance == 1) {
-                System.out.printf("Row %d full%n", destinationRow);
+            if (!isOccupied[targetRow][targetCol]) {
+                traveledDistance += targetCol;
+                isOccupied[targetRow][targetCol] = true;
+                hasFoundFreePlace = true;
             } else {
-                System.out.println(distance);
-            }
-            line = scan.nextLine();
+                for (int i = 1; i < isOccupied[targetRow].length; i++) {
+                    if (targetCol - i > 0 && !isOccupied[targetRow][targetCol - i]) {
+                        isOccupied[targetRow][targetCol - i] = true;
+                        hasFoundFreePlace = true;
+                        traveledDistance += targetCol - i;
+                        break;
+                    }
 
-        }
-    }
-
-    private static int calculateDistance(boolean[][] parking, int entryRow, int destinationRow, int destinationCol) {
-
-        int distanceTraveled = 1;
-
-        if (!parking[destinationRow][destinationCol]) {
-
-            if (destinationRow > entryRow) {
-
-                distanceTraveled += destinationRow - entryRow;
-
-            } else if (destinationRow < entryRow) {
-
-                distanceTraveled += entryRow - destinationRow;
-
-            }
-
-            distanceTraveled += destinationCol;
-            parking[destinationRow][destinationCol] = true;
-        } else {
-
-            boolean hasFreeSpot = false;
-            for (int i = 1; i < parking[destinationRow].length; i++) {
-
-                if (!parking[destinationRow][i]) {
-                    hasFreeSpot = true;
-                    break;
-                }
-            }
-
-            if (hasFreeSpot) {
-
-                int rightFromInitialDistance = 0;
-                boolean foundRightFreeSpot = false;
-                int leftFromInitialDistance = 0;
-                boolean foundLeftFreeSpot = false;
-
-                for (int i = destinationCol + 1; i < parking[destinationRow].length; i++) {
-
-                    rightFromInitialDistance++;
-                    if (!parking[destinationRow][i]) {
-                        foundRightFreeSpot = true;
+                    if (targetCol + i < isOccupied[targetRow].length && !isOccupied[targetRow][targetCol + i]) {
+                        isOccupied[targetRow][targetCol + i] = true;
+                        hasFoundFreePlace = true;
+                        traveledDistance += targetCol + i;
                         break;
                     }
                 }
-
-                for (int i = destinationCol - 1; i > 0; i--) {
-
-                    leftFromInitialDistance++;
-                    if (!parking[destinationRow][i]) {
-                        foundLeftFreeSpot = true;
-                        break;
-                    }
-                }
-
-                if (foundLeftFreeSpot && !foundRightFreeSpot) {
-
-                    destinationCol -= leftFromInitialDistance;
-
-                } else if (foundRightFreeSpot && !foundLeftFreeSpot) {
-
-                    destinationCol += rightFromInitialDistance;
-
-                } else if (leftFromInitialDistance <= rightFromInitialDistance) {
-
-                    destinationCol -= leftFromInitialDistance;
-                } else {
-
-                    destinationCol += rightFromInitialDistance;
-                }
-
-
-                if (destinationRow > entryRow) {
-
-                    distanceTraveled += destinationRow - entryRow;
-
-                } else if (destinationRow < entryRow) {
-
-                    distanceTraveled += entryRow - destinationRow;
-
-                }
-
-                distanceTraveled += destinationCol;
-                parking[destinationRow][destinationCol] = true;
-
             }
-        }
 
-        return distanceTraveled;
+            if (hasFoundFreePlace) {
+                System.out.println(traveledDistance);
+            } else {
+                System.out.println(String.format("Row %d full", targetRow));
+            }
+            input = scan.nextLine();
+        }
     }
 }
