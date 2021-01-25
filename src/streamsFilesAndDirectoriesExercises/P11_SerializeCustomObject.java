@@ -1,7 +1,6 @@
 package streamsFilesAndDirectoriesExercises;
 
 import java.io.*;
-import java.util.List;
 
 public class P11_SerializeCustomObject {
     private static final String PATH = "src/streamsFilesAndDirectoriesExercises/resources/course.ser";
