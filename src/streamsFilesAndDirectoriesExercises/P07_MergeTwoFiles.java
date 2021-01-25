@@ -4,10 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class P07_MergeTwoFiles {
     private static final String FIRST_INPUT_PATH = "src/streamsFilesAndDirectoriesExercises/resources/inputOne.txt";
