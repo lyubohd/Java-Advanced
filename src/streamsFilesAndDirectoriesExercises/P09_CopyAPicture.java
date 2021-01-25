@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class P08_CopyAPicture {
+public class P09_CopyAPicture {
     private static final String PICTURE_PATH = "src/streamsFilesAndDirectoriesExercises/resources/picture.jpg";
     private static final String PICTURE_COPY_PATH = "src/streamsFilesAndDirectoriesExercises/resources/picture-copy.jpg";
 
