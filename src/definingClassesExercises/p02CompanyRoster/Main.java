@@ -46,7 +46,6 @@ public class Main {
                 bestDepartment = department.getKey();
             }
         }
-
         Department department = departments.get(bestDepartment);
         System.out.println(String.format("Highest Average Salary: %s", bestDepartment));
         department
@@ -55,5 +54,6 @@ public class Main {
                 .sorted((e1, e2) -> Double.compare(e2.getSalary(), e1.getSalary()))
                 .forEach(e -> System.out.println(e));
 
+        department.hashCode()
     }
 }
