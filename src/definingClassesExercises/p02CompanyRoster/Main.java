@@ -9,8 +9,6 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         Map<String, Department> departments = new HashMap<>();
 
-        //name, salary, position, department, email and age
-
         int n = Integer.parseInt(scan.nextLine());
         for (int i = 0; i < n; i++) {
             String[] tokens = scan.nextLine().split("\\s+");
@@ -53,7 +51,5 @@ public class Main {
                 .stream()
                 .sorted((e1, e2) -> Double.compare(e2.getSalary(), e1.getSalary()))
                 .forEach(e -> System.out.println(e));
-
-        department.hashCode()
     }
 }
